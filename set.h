@@ -159,4 +159,21 @@ void getFromFile(Set &set,string filename) {
         }
     }
 }
+
+bool operator==(Set &set1, Set &set2){
+    if(set1.getSize()!=set2.getSize()){
+        return false;
+    } else{
+        for(int i=0;i<set1.getSize();i++){
+            if(!set1.isIncluding(set2.operator[](i))){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool operator!=(Set &set1, Set &set2){
+    return !(set1==set2);
+}
 #endif // SET_H
