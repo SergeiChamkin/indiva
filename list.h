@@ -54,56 +54,36 @@ public:
             items_tmp->next = e;
         }
     }
-
     // Вставка элемента в список после элемента с индексом index
-    element* insert(element* pos, QString data) {
-        if (pos == 0)
-            return pos;
-
-        element* x = items, *y = items;
-        while (x != pos) {
-            y = x;
-            x = x->next;
-        }
-
-        element* p = new element();
-        if (p != 0) {
-            p->data = data;
-
-            if (pos == items) {
-                p->next = items;
-                items = p;
+    bool insert(QString data, int index)
+    {
+        if (items != nullptr)
+        {
+            int last_index = get_amount() - 1;
+            if (index <= last_index && index >= 0)
+            {
+                if (index == last_index)
+                {
+                    add(data);
+                    return true;
+                }
+                else
+                {
+                    auto prev = find(index);
+                    //auto next = find(index+1);
+                    auto next = prev->next;
+                    element* e = new element;
+                    e->data = data;
+                    e->prev = prev;
+                    e->next = next;
+                    prev->next = e;
+                    next->prev = e;
+                    return true;
+                }
             }
-            else {
-                p->next = pos;
-                y->next = p;
-            }
+            else return false;
         }
-        return pos;
-    }
-
-    element *getNodeByIndex(int pos){
-        int counter = 0;
-        element *e = items;
-        while(e!=0){
-            if(counter==pos) return e;
-            else{
-                ++counter;
-                e=e->next;
-            }
-        }
-        return 0;
-    }
-
-
-    void changeHead(QString newVal){
-        if(items!=0){
-            items->data=newVal;
-        }
-    }
-
-    void insert(int pos, QString data){
-        insert(getNodeByIndex(pos),data);
+        else return false;
     }
     // Вывод всех элементов списка на экран
     void print()
